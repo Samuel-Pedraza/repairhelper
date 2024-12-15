@@ -7,9 +7,7 @@ import Github from "@/Components/Social/Github.vue";
 
 <template>
     <div class="mb-4 flex flex-col items-center justify-center">
-        <Github class="w-64"/>
         <Google class="w-64"/>
-        <Twitter class="w-64"/>
     </div>
 </template>
 

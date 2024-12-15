@@ -15,6 +15,7 @@ const form = useForm({
     email: '',
     password: '',
     password_confirmation: '',
+    company_name: '',
     terms: false,
 });
 
@@ -59,6 +60,19 @@ const submit = () => {
                         autocomplete="username"
                     />
                     <InputError class="mt-2" :message="form.errors.email" />
+                </div>
+
+                <div class="mt-4">
+                    <InputLabel for="Company Name" :value="$t('Company Name')" />
+                    <TextInput
+                        id="company_name"
+                        v-model="form.company_name"
+                        type="text"
+                        class="mt-1 block w-full"
+                        required
+                        autocomplete="company_name"
+                    />
+                    <InputError class="mt-2" :message="form.errors.company_name" />
                 </div>
 
                 <div class="mt-4">

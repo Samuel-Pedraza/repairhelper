@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Company;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -22,14 +23,20 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name' => ['required', 'string', 'max:75'],
+            'email' => ['required', 'string', 'email', 'max:75', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+            'company_name' => ['required', 'string', 'max:75'],
         ])->validate();
 
-        return DB::transaction(function () use ($input) {
+        $company = Company::create([
+            'company_name' => $input['company_name']
+        ]);
+
+        return DB::transaction(function () use ($input, $company) {
             return tap(User::create([
+                'company_id' => $company->id,
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),

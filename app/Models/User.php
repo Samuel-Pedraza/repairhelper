@@ -102,4 +102,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->trial_is_used;
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

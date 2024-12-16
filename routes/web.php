@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\MagicLinkController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ChangelogController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OgImageController;
 use App\Http\Controllers\Payments\LemonSqueezyController;
@@ -39,7 +40,6 @@ Route::prefix('auth')->group(function () {
         ->name('socialite.redirect');
     Route::get('/callback/{driver}', [SocialiteController::class, 'callback'])
         ->name('socialite.callback');
-
     // Magic Links
     Route::post('/magic-link', [MagicLinkController::class, 'sendMagicLink'])->name('magic.link');
     Route::get('/magic-link/{token}', [MagicLinkController::class, 'loginWithMagicLink'])->name('magic.link.login');
@@ -74,6 +74,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::resource('customers', CustomerController::class);
 
     Route::prefix('stripe')->name('stripe.')->group(function () {
         Route::get('subscription-checkout/{price}', [StripeController::class, 'subscriptionCheckout'])->name('subscription.checkout');

@@ -13,15 +13,13 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('title')->nullable();
+            $table->string('name');
             $table->enum('customer_type', ['individual', 'company']);
-            //belongs to a company
-            //can have multiple addresses
-            //can have multiple payment types
-            //can have multiple forms of contact
-            //customer payment info
+            $table->string('phone_number')->nullable();
+            $table->string('email_address')->nullable();
+            $table->string('fax_number')->nullable();
+            $table->string('mobile_number')->nullable();
+            $table->string('website')->nullable();
             $table->foreignId('company_id')->constrained();
             $table->timestamps();
         });

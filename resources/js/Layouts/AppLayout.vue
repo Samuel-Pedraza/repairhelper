@@ -34,15 +34,17 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen">
-            <nav class="border-b border-base-content/20">
+            <nav class="border-b border-base-content/20 bg-gray-800">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
-                        <div class="flex">
+                    <div class="relative flex h-16 items-center justify-between">
+                        <div class="flex space-x-4">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                    <div class="flex shrink-0 items-center">
+                                        <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+                                    </div>
                                 </Link>
                             </div>
 
@@ -51,16 +53,28 @@ const logout = () => {
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     {{ $t('Dashboard') }}
                                 </NavLink>
+
+                                <NavLink :href="route('customers.index')" :active="route().current('customers.index')">
+                                    {{ $t('Customers') }}
+                                </NavLink>
                             </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
                             <div class="ms-3 relative">
+                                    <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                        <span class="absolute -inset-1.5"></span>
+                                        <span class="sr-only">View notifications</span>
+                                        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                                        </svg>
+                                    </button>
+
                                 <!-- Teams Dropdown -->
-                                <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
+                                <!-- <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md transition ease-in-out duration-150">
+                                            <button type="button" class="inline-flex text-white items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md transition ease-in-out duration-150">
                                                 {{ $page.props.auth.user.current_team.name }}
 
                                                 <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -72,12 +86,12 @@ const logout = () => {
 
                                     <template #content>
                                         <div class="w-60">
-                                            <!-- Team Management -->
+                                            <!-- Team Management
                                             <div class="block px-4 py-2 text-xs">
                                                 {{ $t('Manage Team') }}
                                             </div>
 
-                                            <!-- Team Settings -->
+                                            <!-- Team Settings
                                             <DropdownLink :href="route('teams.show', $page.props.auth.user.current_team)">
                                                 {{ $t('Team Settings') }}
                                             </DropdownLink>
@@ -86,7 +100,7 @@ const logout = () => {
                                                 {{ $t('Create New Team') }}
                                             </DropdownLink>
 
-                                            <!-- Team Switcher -->
+                                            <!-- Team Switcher
                                             <template v-if="$page.props.auth.user.all_teams.length > 1">
                                                 <div class="border-t border-base-content/20" />
 
@@ -110,7 +124,7 @@ const logout = () => {
                                             </template>
                                         </div>
                                     </template>
-                                </Dropdown>
+                                </Dropdown> -->
                             </div>
 
                             <!-- Settings Dropdown -->

@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->enum('address_type', ['home', 'business', 'billing', 'shipping']);
             $table->string('street_address');
+            $table->string('street_address_2')->nullable();
+            $table->string('city');
+            $table->string('state');
+            $table->string('zip');
+            $table->foreignId('customer_id')->constrained();
             $table->timestamps();
         });
     }

@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('customer_contacts', function (Blueprint $table) {
             $table->id();
-            $table->enum('contact_type', ['primary', 'secondary', 'tertiary']);
+            $table->string('first_name');
+            $table->string('last_name')->nullable();
+            $table->string('email_address')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('fax_number')->nullable();
+            $table->string('mobile_number')->nullable();
+            $table->string('website')->nullable();
+            $table->foreignId('customer_id')->constrained();
             $table->timestamps();
         });
     }

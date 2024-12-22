@@ -20,7 +20,7 @@ export default {
         },
     },
 
-    plugins: [forms, typography, require("daisyui")],
+    plugins: [forms, typography, require("daisyui"), require("tailwindcss-primeui")],
 
     daisyui: {
         themes: true

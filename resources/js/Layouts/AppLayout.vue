@@ -33,7 +33,7 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen">
+        <div class="min-h-screen bg-gray-50">
             <nav class="border-b border-base-content/20 bg-gray-800">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,6 +56,26 @@ const logout = () => {
 
                                 <NavLink :href="route('customers.index')" :active="route().current('customers.index')">
                                     {{ $t('Customers') }}
+                                </NavLink>
+
+                                <NavLink>
+                                    {{ $t('Tickets') }}
+                                </NavLink>
+
+                                <NavLink>
+                                    {{ $t('Invoices') }}
+                                </NavLink>
+
+                                <NavLink>
+                                    {{ $t('Estimates') }}
+                                </NavLink>
+
+                                <NavLink>
+                                    {{ $t('Inventory') }}
+                                </NavLink>
+
+                                <NavLink>
+                                    {{ $t('Assets') }}
                                 </NavLink>
                             </div>
                         </div>
@@ -289,7 +309,7 @@ const logout = () => {
 
             <!-- Page Heading -->
             <header v-if="$slots.header" class="shadow border-b border-base-content/20">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 justify-between flex items-center">
                     <slot name="header" />
                 </div>
             </header>

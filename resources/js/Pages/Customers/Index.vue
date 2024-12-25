@@ -7,9 +7,15 @@ import Row from "primevue/row";
 import { ref, onMounted } from "vue";
 import { useToast } from "primevue/usetoast";
 import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
+import InputIcon from 'primevue/inputicon';
+import IconField from 'primevue/iconfield';
+import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 
 const toast = useToast();
 const filters = ref();
+const selectedProduct = ref();
+
 
 const show = () => {
     toast.add({ severity: 'info', summary: 'Info', detail: 'Message Content', group: 'br', life: 3000 });
@@ -87,6 +93,18 @@ const getSeverity = (status) => {
     }
 }
 
+const dt = ref();
+
+
+const exportCSV = () => {
+    dt.value.exportCSV();
+};
+
+const selectRow = (data) => {
+    toast.add({ severity: 'info', summary: data.name, detail: data.code + ' | $' + data.quantity, life: 3000 });
+};
+
+
 
 </script>
 
@@ -100,32 +118,39 @@ const getSeverity = (status) => {
             <button class="btn btn-primary btn-sm" @click="show()">Add New Customer</button>
         </template>
         <div class="bg-gray-50">
-            <div class="max-w-12xl sm:px-6 lg:px-8 mt-10">
-                                        <i class="pi pi-search" />
-                <div class="overflow-hidden border-gray-300 shadow-lg sm:rounded-lg p-6 bg-white">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10">
+                <div class="overflow-hidden shadow-lg sm:rounded-lg p-6 bg-white">
                     <DataTable
+                        v-model:selection="selectedProduct"
                         :filters="filters"
                         :value="products"
                         selectionMode="single"
                         dataKey="id"
-                        :metaKeySelection="false"
+                        :metaKeySelection="metaKey"
                         paginator
                         filterDisplay="menu"
                         :rows="10"
+                        size="large"
+                        ref="dt"
                         :rowsPerPageOptions="[5, 10, 20, 50]"
                         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                         currentPageReportTemplate="{first} to {last} of {totalRecords}"
                         :globalFilterFields="['code', 'name', 'category', 'quantity']"
-                        class="w-full table rounded-lg border">
+                        class="table rounded-lg">
                         <template #header>
-                            <div class="flex justify-end">
-                                <button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
+                            <div class="flex justify-between">
+                            <div>
+                                <Button icon="pi pi-external-link"  class="btn-sm mr-2" label="Export" outlined @click="exportCSV($event)" />
+                                <Button type="button" class="btn-sm" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
+                            </div>
+                            <div class="flex justify-between">
                                 <IconField>
                                     <InputIcon>
                                         <i class="pi pi-search" />
                                     </InputIcon>
-                                    <input v-model="filters['global'].value" placeholder="Keyword Search" />
+                                    <InputText v-model="filters['global'].value" placeholder="Search"/>
                                 </IconField>
+                            </div>
                             </div>
                         </template>
 
@@ -133,33 +158,33 @@ const getSeverity = (status) => {
                         <template #empty> No customers found. </template>
                         <template #loading> Loading customers data. Please wait. </template>
 
-                        <template #paginatorstart>
-                            <Button type="button" icon="pi pi-refresh" text />
+                        <!-- <template #paginatorstart>
+                            <Button type="button" icon="pi pi-refresh" text style="font-size: 1rem" />
                         </template>
                         <template #paginatorend>
                             <Button type="button" icon="pi pi-download" text />
-                        </template>
+                        </template> -->
 
                         <Column
                             field="code"
                             header="Name"
                             sortable
-                            headerClass="bg-gray-100 text-gray-700 font-bold text-left uppercase py-3 px-4"
+                            headerClass="text-gray-700 font-bold text-left py-3 px-4"
                             class="text-left py-2 px-4 text-gray-700"
                         >
-                            <template #body="{ data }">
+                            <!-- <template #body="{ data }">
                                 {{ data.name }}
                             </template>
                             <template #filter="{ filterModel, filterCallback }">
                                 <input v-model="filterModel.value" type="text" @input="filterCallback()" placeholder="Search by name" />
-                            </template>
+                            </template> -->
                         </Column>
 
                         <Column
                             field="name"
                             header="Email"
                             sortable
-                            headerClass="bg-gray-100 text-gray-700 font-bold text-left uppercase py-3 px-4"
+                            headerClass="text-gray-700 font-bold text-left py-3 px-4"
                             class="text-left py-2 px-4 text-gray-700"
                         />
 
@@ -167,7 +192,7 @@ const getSeverity = (status) => {
                             field="category"
                             header="Phone Number"
                             sortable
-                            headerClass="bg-gray-100 text-gray-700 font-bold text-left uppercase py-3 px-4"
+                            headerClass="text-gray-700 font-bold text-left py-3 px-4"
                             class="text-left py-2 px-4 text-gray-700"
                         />
 
@@ -175,7 +200,7 @@ const getSeverity = (status) => {
                             field="category"
                             header="Company Name"
                             sortable
-                            headerClass="bg-gray-100 text-gray-700 font-bold text-left uppercase py-3 px-4"
+                            headerClass="text-gray-700 font-bold text-left py-3 px-4"
                             class="text-left py-2 px-4 text-gray-700"
                         />
 
@@ -183,7 +208,7 @@ const getSeverity = (status) => {
                             field="category"
                             header="Outstanding Ticket Count"
                             sortable
-                            headerClass="bg-gray-100 text-gray-700 font-bold text-left uppercase py-3 px-4"
+                            headerClass="text-gray-700 font-bold text-left py-3 px-4"
                             class="text-left py-2 px-4 text-gray-700"
                         />
 
@@ -191,9 +216,15 @@ const getSeverity = (status) => {
                             field="category"
                             header="Balance"
                             sortable
-                            headerClass="bg-gray-100 text-gray-700 font-bold text-left uppercase py-3 px-4"
+                            headerClass="text-gray-700 font-bold text-left py-3 px-4"
                             class="text-left py-2 px-4 text-gray-700"
                         />
+                        <Column class="w-24 !text-end">
+                            <template #body="{ data }">
+                                <Button icon="pi pi-search" @click="selectRow(data)" severity="secondary" rounded></Button>
+                            </template>
+                        </Column>
+
                     </DataTable>
                     <Toast position="bottom-right" group="br" />
                 </div>
@@ -206,6 +237,9 @@ table {
     width: 100%;
 }
 .p-datatable-filter-overlay-popover {
+    background-color: #f9fafb;
+}
+.p-select-list {
     background-color: #f9fafb;
 }
 </style>

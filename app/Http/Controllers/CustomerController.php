@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Customer\Customer;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -21,7 +23,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Customers/Create');
     }
 
     /**
@@ -29,7 +31,12 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        $companyId = $user->company_id;
+        $request->merge(['company_id' => $companyId]);
+        $customer = Customer::create($request->all());
+
+        return redirect()->route('customers.show', $customer->id);
     }
 
     /**
@@ -37,7 +44,11 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $customer = Customer::find($id);
+
+        return Inertia::render('Customers/Show', [
+            'customer' => $customer,
+        ]);
     }
 
     /**

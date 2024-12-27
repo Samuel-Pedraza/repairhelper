@@ -19,7 +19,8 @@ const filters = ref();
 const selectedProduct = ref();
 
 
-const show = () => {
+const show = (event) => {
+    console.log(event);
     toast.add({ severity: 'info', summary: 'Info', detail: 'Message Content', group: 'br', life: 3000 });
 };
 
@@ -358,27 +359,14 @@ const clearFilter = () => {
 };
 
 
-const statuses = ref(['unqualified', 'qualified', 'new', 'negotiation', 'renewal', 'proposal']);
-
-
-const getSeverity = (status) => {
-    switch (status) {
-        case 'unqualified':
-            return 'danger';
-
-        case 'qualified':
-            return 'success';
-
-        case 'new':
-            return 'info';
-
-        case 'negotiation':
-            return 'warn';
-
-        case 'renewal':
-            return null;
-    }
+const onRowSelect = (event) => {
+    console.log('row select');
+    toast.add({ severity: 'info', summary: 'Product Selected', detail: 'Name: Hello World', life: 3000 });
+};
+const onRowUnselect = (event) => {
+    toast.add({ severity: 'warn', summary: 'Product Unselected', detail: 'Name: Hello World', life: 3000 });
 }
+
 
 const dt = ref();
 
@@ -402,7 +390,7 @@ const selectRow = (data) => {
                 {{ $t("Customer Overview") }}
             </h2>
 
-            <button class="btn btn-primary btn-sm" @click="show()">Add New Customer</button>
+            <Link :href="route('customers.create')" class="btn btn-primary btn-sm" @click="show()">Add New Customer</Link>
         </template>
         <div class="bg-gray-50">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-10">
@@ -413,12 +401,13 @@ const selectRow = (data) => {
                         :value="products"
                         selectionMode="single"
                         dataKey="id"
-                        :metaKeySelection="metaKey"
+                        :metaKeySelection="false"
                         paginator
                         filterDisplay="menu"
                         :rows="10"
                         size="large"
                         ref="dt"
+                        removableSort
                         :rowsPerPageOptions="[5, 10, 15, 20, 50]"
                         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                         currentPageReportTemplate="{first} to {last} of {totalRecords}"
@@ -495,7 +484,7 @@ const selectRow = (data) => {
 
                         <Column class="">
                             <template #body="{ data }">
-                                <Link class="btn btn-sm">
+                                 <Link class="btn btn-sm" :href="route('customers.show', data.id)">
                                     {{ $t('View Customer') }}
                                 </Link>
 

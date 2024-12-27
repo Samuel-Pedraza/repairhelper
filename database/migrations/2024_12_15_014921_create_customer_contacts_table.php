@@ -20,6 +20,11 @@ return new class extends Migration
             $table->string('fax_number')->nullable();
             $table->string('mobile_number')->nullable();
             $table->string('website')->nullable();
+            $table->string('street_address')->nullable();
+            $table->string('unit')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('zip_code')->nullable();
             $table->foreignId('customer_id')->constrained();
             $table->timestamps();
         });

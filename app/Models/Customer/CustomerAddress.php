@@ -12,7 +12,7 @@ class CustomerAddress extends Model
     protected $fillable = [
         'address_type',
         'street_address',
-        'street_address_2',
+        'unit',
         'city',
         'state',
         'zip',

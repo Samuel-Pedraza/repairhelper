@@ -17,6 +17,11 @@ class CustomerContact extends Model
         'fax_number',
         'mobile_number',
         'website',
+        'street_address',
+        'unit',
+        'city',
+        'state',
+        'zip_code',
         'customer_id',
     ];
 }
